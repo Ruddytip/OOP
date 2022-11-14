@@ -1,44 +1,40 @@
 #include <iostream>
-#include "Power.hpp" // Task 1
-#include "RGBA.hpp"  // Task 2
-#include "Stack.hpp" // Task 3
+#include "Person.hpp"    // Task 1
+#include "Fruit.hpp"     // Task 2
+// #include "Blackjack.hpp" // Task 3
 
 int main(){
     // Task 1
     std::cout << "Task 1:\n";
-    RGBA color1;
-    color1.print();
-    RGBA color2(100, 100, 100, 100);
-    color2.print();
+    Student S_Gena("Gena", 23, 'M', 110, 3);
+    S_Gena.printInfo();
+    Student S_Sonya("Sonya", 30, 'W', 55, 1);
+    S_Sonya.printInfo();
+    Student S_Vadim("Vadim", 50, 'M', 85, 4);
+    S_Vadim.printInfo();
     std::cout << std::endl;
     // ====================
 
     // Task 2
     std::cout << "Task 2:\n";
-    Power power;
-    power.set(2, 8);
-    power.calculate();
+    Apple a("red");
+    Banana b;
+    GrannySmith c;
+    std::cout << "My " << a.getName() << " is " << a.getColor() << ".\n";
+    std::cout << "My " << b.getName() << " is " << b.getColor() << ".\n";
+    std::cout << "My " << c.getName() << " is " << c.getColor() << ".\n";
     std::cout << std::endl;
     // ====================
 
     // Task 3
-    std::cout << "Task 3:\n";
-    Stack stack;
-    stack.reset();
-    stack.print();
+    // Изучить правила игры в Blackjack.
+    // Подумать, как написать данную игру на С++, используя объектно-ориентированное программирование.
+    // Сколько будет классов в программе? Какие классы будут базовыми, а какие производными?
+    // Продумать реализацию игры с помощью классов и записать результаты в виде комментария в основном файле сдаваемой работы.
+    // ====================
 
-    stack.push(3);
-    stack.push(7);
-    stack.push(5);
-    stack.print();
 
-    stack.pop();
-    stack.print();
 
-    stack.pop();
-    stack.pop();
-    stack.print();
-    std::cout << std::endl;
     // ====================
     return 0;
 }
