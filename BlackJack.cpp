@@ -1,4 +1,5 @@
 #include "Blackjack.hpp"
+
 // Card ===============================================================================================
 Card::Card(const unsigned short _face, const unsigned char _suit):
 face(_face), suit(_suit), dir(false){}
@@ -25,6 +26,10 @@ unsigned short Card::GetValue() const {
     }
 
     return face;
+}
+
+bool Card::getDir() const{
+    return dir;
 }
 
 // Card ===============================================================================================
@@ -67,3 +72,57 @@ void GenericPlayer::Bust() const{
 }
 
 // GenericPlayer ======================================================================================
+
+// Player =============================================================================================
+
+Player::Player(const std::string _name): GenericPlayer(_name){}
+
+bool Player::IsHitting() const{
+    std::cout << "Do you want to take another card?(y/n)";
+    while(true){
+        std::string str = "";
+        std::getline(std::cin, str);
+        if(str.length() == 1 && (str[0] == 'y' || str[0] == 'n')){
+            return ((str[0] == 'y') ? true : false);
+        } else{
+            std::cerr << "Error input!!!" << std::endl;
+            std::cout << "Try again: ";
+        }
+    }
+}
+
+void Player::Win() const{
+    std::cout << "The player " << name << " won!" << std::endl;
+}
+
+void Player::Lose() const{
+    std::cout << "The player " << name << " lost!" << std::endl;
+}
+
+void Player::Push() const{
+    std::cout << "The player " << name << " drew!" << std::endl;
+}
+
+// Player =============================================================================================
+
+// House ==============================================================================================
+
+House::House(const std::string _name): GenericPlayer(_name){}
+
+bool House::IsHitting() const{
+    return ((Hand::GetValue() < 16) ? true : false);
+}
+
+void House::FlipFirstCard(){
+    // 1. Если всегда переворачивается только первая карта
+    // cards[0].Flip();
+    // 2. Если переворачивается первая неперевёрнутая карта
+    for(unsigned int i = 0; i < cards.size(); ++i){
+        if(!(cards[i].getDir())){
+            cards[i].Flip();
+            break;
+        }
+    }
+}
+
+// House ==============================================================================================

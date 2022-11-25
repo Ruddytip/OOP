@@ -2,10 +2,14 @@
 #include <iostream>
 #include <vector>
 
+// Task 5. Написать перегрузку оператора вывода для класса Card. Если карта перевернута рубашкой вверх (мы ее не видим),
+// вывести ХХ, если мы ее видим, вывести масть и номинал карты.
+// Также для класса GenericPlayer написать перегрузку оператора вывода, который должен отображать имя игрока и его карты, а также общую сумму очков его карт.
+
 // Масти: пики, трефы, червы, бубны
 enum{spade, club, heart, diamond};
 // Валет, Дама, Король, Туз, Джокер
-enum{jack, queen, king, ace};
+enum{jack = 11, queen = 12, king = 13, ace = 1};
 
 // Создать класс Card, описывающий карту в игре БлэкДжек.
 // У этого класса должно быть три поля: масть, значение карты и положение карты (вверх лицом или рубашкой).
@@ -28,6 +32,29 @@ public:
     void Flip();
     // Возвращает значение карты, пока можно считать, что туз = 1
     unsigned short GetValue() const;
+    // Возвращает положение карты
+    bool getDir() const;
+    // Если карта перевернута рубашкой вверх (мы ее не видим), вывести ХХ, если мы ее видим, вывести масть и номинал карты
+    friend std::ostream& operator<<(std::ostream &out, const Card& crd){
+        if(crd.dir){
+            switch(crd.suit){
+                case spade: out   << "Spade ";   break;
+                case club: out    << "Club ";    break;
+                case heart: out   << "Heart ";   break;
+                case diamond: out << "Diamond "; break;
+            }
+            switch(crd.face){
+                case jack: out  << "Jack";   break;
+                case queen: out << "Queen";  break;
+                case king: out  << "King";   break;
+                case ace: out   << "Ace";    break;
+                default: out    << crd.face; break;
+            }
+        } else{
+            out << "XX";
+        }
+        return out;
+    }
 };
 
 // Реализовать класс Hand, который представляет собой коллекцию карт.
@@ -38,7 +65,7 @@ public:
 // • метод GetValue, который возвращает сумму очков карт руки (здесь предусмотреть возможность того, что туз может быть равен 11).
 // Карты в руке (по сути мини-колода)
 class Hand{
-private:
+protected:
     std::vector<Card> cards;
 public:
     // Добавляет карту
@@ -55,7 +82,7 @@ public:
 // • IsBoosted() - возвращает bool значение, есть ли у игрока перебор
 // • Bust() - выводит на экран имя игрока и объявляет, что у него перебор.
 class GenericPlayer: public Hand{
-private:
+protected:
     std::string name;
 public:
     GenericPlayer(const std::string _name);
@@ -65,4 +92,44 @@ public:
     bool IsBoosted() const;
     // выводит на экран имя игрока и объявляет, что у него перебор
     void Bust() const;
+    // 
+    friend std::ostream& operator<<(std::ostream &out, const GenericPlayer& plr){
+        out << "Player " << plr.name << ":\n";
+        for(unsigned int i = 0; i < plr.cards.size(); ++i)
+            out << plr.cards[i] << std::endl;
+        out << "Total points: " << plr.GetValue() << std::endl;
+        return out;
+    }
+};
+
+// Task 3. Реализовать класс Player, который наследует от класса GenericPlayer. У этого класса будет 4 метода:
+// • virtual bool IsHitting() const - реализация чисто виртуальной функции базового класса. Метод спрашивает у пользователя, нужна ли ему еще одна карта и возвращает ответ пользователя в виде true или false.
+// • void Win() const- выводит на экран имя игрока и сообщение, что он выиграл.
+// • void Lose() const - выводит на экран имя игрока и сообщение, что он проиграл.
+// • void Push() const - выводит на экран имя игрока и сообщение, что он сыграл вничью.
+class Player : public GenericPlayer{
+private:
+public:
+    Player(const std::string _name);
+    // спрашивает у пользователя, нужна ли ему еще одна карта и возвращает ответ пользователя в виде true или false
+    bool IsHitting() const override;
+    // выводит на экран имя игрока и сообщение, что он выиграл
+    void Win() const;
+    // выводит на экран имя игрока и сообщение, что он проиграл
+    void Lose() const;
+    // выводит на экран имя игрока и сообщение, что он сыграл вничью
+    void Push() const;
+};
+
+// Task 4. Реализовать класс House, который представляет дилера. Этот класс наследует от класса GenericPlayer. У него есть 2 метода:
+// • virtual bool IsHitting() const - метод указывает, нужна ли дилеру еще одна карта. Если у дилера не больше 16 очков, то он берет еще одну карту.
+// • void FlipFirstCard() - метод переворачивает первую карту дилера.
+class House : public GenericPlayer{
+private:
+public:
+    House(const std::string _name);
+    // метод указывает, нужна ли дилеру еще одна карта. Если у дилера не больше 16 очков, то он берет еще одну карту
+    bool IsHitting() const override;
+    // метод переворачивает первую карту дилера
+    void FlipFirstCard();
 };

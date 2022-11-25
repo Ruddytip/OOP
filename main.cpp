@@ -1,31 +1,43 @@
 #include <iostream>
-#include "Pair.hpp"            // Task 1, 2
-#include "StringValuePair.hpp" // Task 3
-#include "Blackjack.hpp"       // Task 4, Реализовать класс Hand
+#include <iomanip>
+#include "Mymanip.hpp"   // Task 2
+#include "Blackjack.hpp" // Task 3, Реализовать класс Player
+                         // Task 4, Реализовать класс House
+                         // Task 5. Написать перегрузку оператора вывода для класса Card.
+                         // Также для класса GenericPlayer написать перегрузку оператора вывода,
+                         // который должен отображать имя игрока и его карты, а также общую сумму очков его карт
 
 int main(){
-    // Task 1
+    // Task 1. Создать программу, которая считывает целое число типа int. И поставить «защиту от дурака»:
+    // если пользователь вводит что-то кроме одного целочисленного значения,
+    // нужно вывести сообщение об ошибке и предложить ввести число еще раз. Пример неправильных введенных строк:
+    // rbtrb
+    // nj34njkn
+    // 1n
     std::cout << "Task 1:\n";
-    Pair1<int> p1(6, 9);
-    std::cout << "Pair: " << p1.first() << ' ' << p1.second() << '\n';
-    const Pair1<double> p2(3.4, 7.8);
-    std::cout << "Pair: " << p2.first() << ' ' << p2.second() << '\n';
+    while(true){
+        std::string str = "";
+        std::getline(std::cin, str);
+        bool flag = true;
+        for(unsigned int i = 0; i < str.length(); ++i){
+            if(str[i] < '0' || str[i] > '9'){
+                flag = false;
+                break;
+            }
+        }
+        if(!flag){
+            std::cerr << "Error input!!!" << std::endl;
+            std::cout << "Try again: ";
+        } else{
+            break;
+        }
+    }
     std::cout << std::endl;
     // ====================
 
     // Task 2
     std::cout << "Task 2:\n";
-    Pair<int, double> pt1(6, 7.8);
-    std::cout << "Pair: " << pt1.first() << ' ' << pt1.second() << '\n';
-    const Pair<double, int> pt2(3.4, 5);
-    std::cout << "Pair: " << pt2.first() << ' ' << pt2.second() << '\n';
-    std::cout << std::endl;
-    // ====================
-
-    // Task 3
-    std::cout << "Task 3:\n";
-    StringValuePair<int> svp("Amazing", 7);
-    std::cout << "Pair: " << svp.first() << ' ' << svp.second() << '\n';
+    std::cout << "Begin:" << endll << "End:";
     std::cout << std::endl;
     // ====================
 
