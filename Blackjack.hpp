@@ -1,5 +1,5 @@
 #pragma once
-#include <string>
+#include <iostream>
 #include <vector>
 
 // Масти: пики, трефы, червы, бубны
@@ -49,54 +49,20 @@ public:
     int GetValue() const;
 };
 
-// // Колода карт
-// class Deck{
-// private:
-//     // Размер текущей колоды
-//     unsigned int size;
-//     // Сама колода карт, скорее всего реализую в виде стека
-//     Card* cards;
-// public:
-//     // Выдаёт карту из колоды
-//     Card IssueCard();
-//     // Перетасовка колоды
-//     void Shuffle();
-//     // Заполняет колоду картами
-//     void recoil();
-// };
-
-// class Player{
-// private:
-//     // Текущее кол-во денег
-//     unsigned int money;
-//     // Текущая ставка
-//     unsigned int betOnTable;
-//     Hand hand;
-// public:
-//     // Возвращает значение ставки игрока
-//     unsigned int getBet();
-//     // Награждает игрока кол-вом денег, равную ставке умноженной на коэффициент
-//     void win(const int cof);
-//     // Изымает у игрока кол-во денег, равную его ставке
-//     void loss();
-//     // Решение брать или не брать карту
-//     void askCard();
-// };
-
-// class Table{
-// private:
-//     // Крупье
-//     Player crup;
-//     // Колода
-//     Deck deck;
-//     // Кол-во игроков
-//     unsigned int countPlayers;
-//     // Игроки
-//     Player* players;
-
-// public:
-//     // Выполнение цикла игры
-//     void makeMove();
-//     // Проверка каждого игрока на победу или проигрыш
-//     void Check();
-// };
+// Согласно иерархии классов, которая представлена в методичке к уроку 3, от класса Hand наследует класс GenericPlayer,
+// который обобщенно представляет игрока, ведь у нас будет два типа игроков - человек и компьютер. Создать класс GenericPlayer, в который добавить поле name - имя игрока. Также добавить 3 метода:
+// • IsHitting() - чисто виртуальная функция, возвращает информацию, нужна ли игроку еще одна карта.
+// • IsBoosted() - возвращает bool значение, есть ли у игрока перебор
+// • Bust() - выводит на экран имя игрока и объявляет, что у него перебор.
+class GenericPlayer: public Hand{
+private:
+    std::string name;
+public:
+    GenericPlayer(const std::string _name);
+    // возвращает информацию, нужна ли игроку еще одна карта
+    virtual bool IsHitting() const = 0;
+    // возвращает bool значение, есть ли у игрока перебор
+    bool IsBoosted() const;
+    // выводит на экран имя игрока и объявляет, что у него перебор
+    void Bust() const;
+};

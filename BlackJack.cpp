@@ -53,3 +53,17 @@ int Hand::GetValue() const{
 }
 
 // Hand ===============================================================================================
+
+// GenericPlayer ======================================================================================
+
+GenericPlayer::GenericPlayer(const std::string _name): name(_name){}
+
+bool GenericPlayer::IsBoosted() const{
+    return (Hand::GetValue() > 21 ? true : false);
+}
+
+void GenericPlayer::Bust() const{
+    std::cout << "The player " << name << " has too many points!" << std::endl;
+}
+
+// GenericPlayer ======================================================================================
